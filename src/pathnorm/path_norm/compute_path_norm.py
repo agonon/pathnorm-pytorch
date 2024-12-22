@@ -114,7 +114,21 @@ def get_kernel_shapes(name) -> list:
     except IOError:
         raise Exception("Did not find 'ok_models.json' file. " +
                         "Please run check_models.py script.")
-
+        
+def replace_module(root_module, module_name, new_module):
+    """
+    For module_name like "features.2" as in AlexNet,
+    split on '.', walk down the submodules, and finally
+    replace the last submodule with `new_module`.
+    """
+    # note: module_name = "features.2"
+    # needs to be accessed with model._modules["features"]._modules["2"]
+    # there is nothing like model._modules["features.2"], which if created, would correspond to a new module
+    tokens = module_name.split('.')  # ["features", "2"]
+    parent = root_module
+    for t in tokens[:-1]:
+        parent = parent._modules[t]
+    parent._modules[tokens[-1]] = new_module
 
 def replace_maxpool2d_with_conv2d(model, name, device, in_place=False):
     """
@@ -164,7 +178,7 @@ def replace_maxpool2d_with_conv2d(model, name, device, in_place=False):
             i += 1
     # Replace each MaxPool2d by Conv2d
     for i, n, p in zip(idx, layer_names, params):
-        new_model._modules[n] = torch.nn.Conv2d(
+        conv = torch.nn.Conv2d(
             in_channels=in_channels[i],
             out_channels=out_channels[i],
             kernel_size=p[0],
@@ -176,21 +190,9 @@ def replace_maxpool2d_with_conv2d(model, name, device, in_place=False):
             bias=False,
             device=device,
         )
-        # setattr(new_model, n, torch.nn.Conv2d(
-        #     in_channels=in_channels[i],
-        #     out_channels=out_channels[i],
-        #     kernel_size=p[0],
-        #     stride=p[1],
-        #     padding=p[2],
-        #     padding_mode="zeros",
-        #     dilation=p[3],
-        #     groups=in_channels[i],
-        #     bias=False,
-        #     device=device,
-        # ))
-        new_model._modules[n].weight.data.fill_(1)
-    # from torchinfo import summary
-    # print(summary(new_model, (1, 3, 224, 224)))
+        conv.weight.data.fill_(1)
+        replace_module(new_model, n, conv)
+
     return new_model
 
 
@@ -304,14 +306,15 @@ def reset_model(name, model, orig_weights):
                                     " path-norm toolkit conditions.")
                 if "MaxPool2d" in ok_models[name].keys():
                     for k, v in ok_models[name]["MaxPool2d"].items():
-                        setattr(model, k,
-                                torch.nn.MaxPool2d(
+                        maxpool = torch.nn.MaxPool2d(
                                     kernel_size=v["reset"]["kernel_size"],
                                     stride=v["reset"]["stride"],
                                     padding=v["reset"]["padding"],
                                     dilation=v["reset"]["dilation"],
                                     ceil_mode=False,
-                                ))
+                                )
+                        replace_module(model, k, maxpool)
+
         except IOError:
             raise Exception("Did not find 'ok_models.json' file. " +
                             "Please run check_models.py script.")
