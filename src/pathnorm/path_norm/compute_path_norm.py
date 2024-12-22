@@ -307,9 +307,9 @@ def reset_model(name, model, orig_weights):
                         setattr(model, k,
                                 torch.nn.MaxPool2d(
                                     kernel_size=v["reset"]["kernel_size"],
-                                    stride=v["reset"]["kernel_size"],
-                                    padding=v["reset"]["kernel_size"],
-                                    dilation=v["reset"]["kernel_size"],
+                                    stride=v["reset"]["stride"],
+                                    padding=v["reset"]["padding"],
+                                    dilation=v["reset"]["dilation"],
                                     ceil_mode=False,
                                 ))
         except IOError:
