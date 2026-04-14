@@ -23,7 +23,7 @@ This public API comes from [*A path-norm toolkit for modern networks: consequenc
 
 This repository also contains the reproduction material for these papers, in [repro/iclr24](repro/iclr24) and [repro/icml25](repro/icml25).
 
-The ICML folder can be of separate interest to compute path-metrics, a generalization of path-norms used to derive Lipschitz bounds with respect to the weights of a ReLU network. In that folder, it is used to decide which weights to prune in a ResNet-18 trained on ImageNet. 
+The ICML folder can be of separate interest to compute path-metrics, a generalization of path-norms used to derive Lipschitz bounds with respect to the weights of a ReLU network. In that folder, it is used to decide which weights to prune in a ResNet-18 trained on ImageNet. For a minimal example, see the `Pruning recipe` section near the top of [repro/icml25/icml25_repro.ipynb](repro/icml25/icml25_repro.ipynb).
 
 ## Citation
 
