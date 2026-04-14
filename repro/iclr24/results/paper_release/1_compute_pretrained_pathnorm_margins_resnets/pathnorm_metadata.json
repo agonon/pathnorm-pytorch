@@ -1,0 +1,16 @@
+{
+  "working_dtype": "torch.float64",
+  "exponents": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "input_shape": [
+    3,
+    224,
+    224
+  ],
+  "pathnorm_api": "compute_path_norms"
+}

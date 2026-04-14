@@ -1,0 +1,2 @@
+row,original_accuracy,mean_val_acc1,mean_best_epoch,num_runs
+Dense baseline,68.70466667073568,64.37454472467472,87.0,3

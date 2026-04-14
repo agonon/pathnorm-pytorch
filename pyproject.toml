@@ -1,15 +1,15 @@
 # see https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
 [build-system]
-requires = ["setuptools", "setuptools-scm", "ipykernel", "matplotlib", "numpy", "pandas", "tensorboard", "torch", "torchvision"]
+requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "pathnorm"
 version= "0"
 authors = [
-    {name = "Antoine Gonon", email = "antoine.gonon@ens-lyon.fr"},
+    {name = "Antoine Gonon", email = "antoine.gonon@epfl.ch"},
 ]
-description = "Path-norm of ResNets"
+description = "Compute path-norms in PyTorch"
 readme = "README.md"
 requires-python = ">=3.7"
 keywords = ["one", "two"]
@@ -18,18 +18,26 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 dependencies = [
+    "torch",
+    ]
+
+[project.optional-dependencies]
+quickstart = ["torchvision"]
+repro = [
+    "datasets",
+    "huggingface_hub",
     "ipykernel",
     "matplotlib",
     "numpy",
     "pandas",
+    "pillow",
     "tensorboard",
-    "torch",
     "torchvision",
-    ]
+    "tqdm",
+]
 
-[project.optional-dependencies]
-pdf = []
-rest = []
+[tool.setuptools]
+py-modules = ["pathnorm"]
 
 # [project.scripts]
 # see https://setuptools.pypa.io/en/latest/userguide/entry_point.html#console-scripts

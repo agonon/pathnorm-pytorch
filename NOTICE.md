@@ -1,7 +1,7 @@
 PyTorch Code Notice
 ===================
 
-The backbone of src/path_norm/train_imagenet.py (excluding stuff related to path-norms, margins, and iterative pruning) is an adaptation of the [PyTorch example](https://github.com/pytorch/examples/blob/main/imagenet/main.py), which is licensed under the
+The backbone of `repro/iclr24/train_imagenet.py` (excluding stuff related to path-norms, margins, and iterative pruning) is an adaptation of the [PyTorch example](https://github.com/pytorch/examples/blob/main/imagenet/main.py), which is licensed under the
 BSD 3-Clause License. The full text of the license is provided below:
 
 BSD 3-Clause License
